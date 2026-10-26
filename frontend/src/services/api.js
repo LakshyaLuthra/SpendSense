@@ -1,0 +1,26 @@
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+
+async function request(path, options = {}) {
+  const token = localStorage.getItem('token');
+  const response = await fetch(`${API_URL}${path}`, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(options.headers || {})
+    }
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.detail || 'Request failed');
+  return data;
+}
+
+export const api = {
+  register: (body) => request('/auth/register', { method: 'POST', body: JSON.stringify(body) }),
+  login: (body) => request('/auth/login', { method: 'POST', body: JSON.stringify(body) }),
+  expenses: () => request('/expenses'),
+  addExpense: (body) => request('/expenses', { method: 'POST', body: JSON.stringify(body) }),
+  deleteExpense: (id) => request(`/expenses/${id}`, { method: 'DELETE' }),
+  predictCategory: (body) => request('/predict-category', { method: 'POST', body: JSON.stringify(body) }),
+  dashboard: () => request('/analytics/dashboard')
+};
