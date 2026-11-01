@@ -1,23 +1,32 @@
-# Python cache
+# Python
 __pycache__/
 *.py[cod]
-
-# Virtual environments
 venv/
 .venv/
-
-# Node.js
-node_modules/
+env/
 
 # Environment variables
 .env
 .env.*
 
-# Local databases
+# Node
+node_modules/
+dist/
+build/
+
+# Database
 *.db
 *.sqlite
 *.sqlite3
 
-# Build files
-dist/
-build/
+# Model and temporary files
+*.joblib
+*.pkl
+*.h5
+
+# IDE
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
